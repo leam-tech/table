@@ -77,16 +77,6 @@ class Table {
 
     this.actions = [
       {
-        actionName: 'InsertColBefore',
-        icon: Icons.InsertColBefore,
-        label: 'Insert column before'
-      },
-      {
-        actionName: 'InsertColAfter',
-        icon: Icons.InsertColAfter,
-        label: 'Insert column after'
-      },
-      {
         actionName: 'InsertRowBefore',
         icon: Icons.InsertRowBefore,
         label: 'Insert row before'
@@ -100,6 +90,16 @@ class Table {
         actionName: 'DeleteRow',
         icon: Icons.DeleteRow,
         label: 'Delete row'
+      },
+      {
+        actionName: 'InsertColBefore',
+        icon: Icons.InsertColBefore,
+        label: 'Insert column before'
+      },
+      {
+        actionName: 'InsertColAfter',
+        icon: Icons.InsertColAfter,
+        label: 'Insert column after'
       },
       {
         actionName: 'DeleteCol',
