@@ -1,4 +1,4 @@
-import {create} from './documentUtils';
+import { create, getCoords, getSideByCoords } from './documentUtils';
 import './styles/table.pcss';
 
 const CSS = {
@@ -16,15 +16,20 @@ const CSS = {
 export class Table {
   /**
    * Creates
+   *
+   * @param {boolean} readOnly - read-only mode flag
    */
-  constructor() {
+  constructor(readOnly) {
+    this.readOnly = readOnly;
     this._numberOfColumns = 0;
     this._numberOfRows = 0;
     this._element = this._createTableWrapper();
     this._table = this._element.querySelector('table');
     this._selectedCell = null;
 
-    this._attachEvents();
+    if (!this.readOnly) {
+      this._attachEvents();
+    }
   }
 
   /**
@@ -147,6 +152,7 @@ export class Table {
     this._numberOfRows++;
 
     this._fillRow(row);
+
     return row;
   };
 
@@ -173,10 +179,20 @@ export class Table {
 
   /**
    * get real table tag
-   * @return {HTMLElement}
+   *
+   * @returns {HTMLElement}
    */
   get body() {
     return this._table;
+  }
+
+  /**
+   * returns selected/editable cell
+   *
+   * @returns {HTMLElement}
+   */
+  get selectedCell() {
+    return this._selectedCell;
   }
 
   /**
@@ -198,7 +214,7 @@ export class Table {
    * @return {HTMLElement} - the area
    */
   _createContenteditableArea() {
-    return create('div', [ CSS.inputField ], { contenteditable: 'true' });
+    return create('div', [ CSS.inputField ], { contenteditable: !this.readOnly });
   }
 
   /**
