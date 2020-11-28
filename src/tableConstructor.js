@@ -24,7 +24,7 @@ export class TableConstructor {
     this.readOnly = readOnly;
 
     /** creating table */
-    this._table = new Table(readOnly);
+    this._table = new Table(readOnly, api);
     const size = this._resizeTable(data, config);
 
     this._fillTable(data, size);

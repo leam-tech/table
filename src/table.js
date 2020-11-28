@@ -1,4 +1,4 @@
-import { create, getCoords, getSideByCoords } from './documentUtils';
+import {create} from './documentUtils';
 import './styles/table.pcss';
 
 const CSS = {
@@ -18,9 +18,11 @@ export class Table {
    * Creates
    *
    * @param {boolean} readOnly - read-only mode flag
+   * @param {object} api - Editor.js API
    */
-  constructor(readOnly) {
+  constructor(readOnly, api) {
     this.readOnly = readOnly;
+    this.api = api;
     this._numberOfColumns = 0;
     this._numberOfRows = 0;
     this._element = this._createTableWrapper();
@@ -133,6 +135,9 @@ export class Table {
     for (let i = 0; i < rows.length; i++) {
       rows[i].deleteCell(removalIndex);
     }
+    if (!this._numberOfColumns) {
+      this.api.blocks.delete();
+    }
   };
 
   /**
@@ -167,6 +172,9 @@ export class Table {
 
     this._table.deleteRow(removalIndex);
     this._numberOfRows--;
+    if (!this._numberOfRows) {
+      this.api.blocks.delete();
+    }
   };
 
   /**
