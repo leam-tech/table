@@ -132,11 +132,21 @@ export class Table {
     /** Delete cell in each row */
     const rows = this._table.rows;
 
+    const prevSelectedRow = this.selectedRow;
+
     for (let i = 0; i < rows.length; i++) {
       rows[i].deleteCell(removalIndex);
     }
     if (!this._numberOfColumns) {
       this.api.blocks.delete();
+    } else {
+      if (prevSelectedRow) {
+        const cells = rows[prevSelectedRow.rowIndex].cells;
+
+        this.selectedCell = cells[removalIndex] || cells[removalIndex - 1];
+      } else {
+        this.selectedCell = rows[0].lastChild;
+      }
     }
   };
 
@@ -169,11 +179,16 @@ export class Table {
     if (!this.selectedRow) return;
 
     const removalIndex = this.selectedRow.rowIndex;
+    const prevSelectedCellIndex = this.selectedCell.cellIndex;
 
     this._table.deleteRow(removalIndex);
     this._numberOfRows--;
     if (!this._numberOfRows) {
       this.api.blocks.delete();
+    } else {
+      const cells = this._table.rows[removalIndex] ? this._table.rows[removalIndex].cells : this._table.rows[removalIndex - 1].cells;
+
+      this.selectedCell = cells[prevSelectedCellIndex] || cells[prevSelectedCellIndex - 1];
     }
   };
 
